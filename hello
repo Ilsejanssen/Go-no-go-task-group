@@ -34,9 +34,9 @@ for trial in trials:
 
     # Set stimulus text
     if trial == "GO":
-        stim.text = "X"
+        stim.text = "Go"
     else:
-        stim.text = "O"
+        stim.text = "No go"
 
 # Draw stimulus
     stim.draw()
