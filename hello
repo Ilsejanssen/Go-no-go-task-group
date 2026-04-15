@@ -21,7 +21,6 @@ random.shuffle(trials)
 
 
 
-
 # 5. Trial Loop
 
 clock = core.Clock()
