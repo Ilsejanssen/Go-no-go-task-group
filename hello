@@ -66,3 +66,5 @@ writer.writerow(["trial_type", "response", "reaction_time"])
 data_file.close()
 win.close()
 core.quit()
+
+hallooo alllemaaaaalll
