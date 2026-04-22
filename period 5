@@ -12,8 +12,8 @@ welcome_message = visual.TextStim(
                 win,
                 text = """Welcome to the experiment.
                 Please press the SPACEBAR when you see 'GO', and do NOT press any keys when you see 'N0-GO'
-                Please press the SPACEBAR to continue"""",
-                color = "black"
+                Please press the SPACEBAR to continue""",
+                color = "black",
                 height = 0.05
                 )
 
