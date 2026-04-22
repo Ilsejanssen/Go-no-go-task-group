@@ -2,6 +2,9 @@ from psychopy import visual, core, event, data
 import random
 import csv
 
+name = input("Enter your name:")
+print(f"{name}")
+
 #create window
 win = visual.Window(
     size= (800, 600),
@@ -16,19 +19,26 @@ welcome_message = visual.TextStim(
                 color = "black"
                 height = 0.05
                 )
+#show instructions:
+welcome_message.draw()
+win.flip()
+event.waitKeys(keylist = ["space"])
 
 # 2. Create Stimulus
 stim = visual.TextStim(win, text="", height=0.2, color="white")
 
 # 3. Create Trial List
-go_trials = 40
-nogo_trials = 10
+go_trials = 4
+nogo_trials = 1
 
 trials = ["GO"] * go_trials + ["NOGO"] * nogo_trials
 random.shuffle(trials)
 
+# 4. Prepare Data Storage
 
-
+data_file = open("data.csv", mode="w", newline="")
+writer = csv.writer(data_file)
+writer.writerow(["trial_type", "response", "reaction_time"])
 
 
 # 5. Trial Loop
@@ -39,9 +49,9 @@ for trial in trials:
 
     # Set stimulus text
     if trial == "GO":
-        stim.text = "Go"
+        stim.text = "GO"
     else:
-        stim.text = "No go"
+        stim.text = "NO-GO"
 
 # Draw stimulus
     stim.draw()
@@ -57,11 +67,7 @@ for trial in trials:
     else:
         response = "none"
         rt = None
-# 4. Prepare Data Storage
 
-data_file = open("data.csv", mode="w", newline="")
-writer = csv.writer(data_file)
-writer.writerow(["trial_type", "response", "reaction_time"])
 
 # Save trial data
     writer.writerow([trial, response, rt])
@@ -69,6 +75,18 @@ writer.writerow(["trial_type", "response", "reaction_time"])
 # Inter-trial interval
     win.flip()
     core.wait(0.5)
+
+#end message
+end_message = visual.TextStim(
+win,
+text = """This si the end of the experiment. Thank you for participating.""",
+color = "black",
+height = 0.05
+)
+
+#show instructions:
+end_message.draw()
+win.flip
 
 # 6. Clean Up
 
