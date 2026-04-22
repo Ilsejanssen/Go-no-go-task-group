@@ -22,7 +22,7 @@ welcome_message = visual.TextStim(
 #show instructions:
 welcome_message.draw()
 win.flip()
-event.waitKeys(keylist = ["space"])
+event.waitKeys(keyList = ["space"])
 
 #  Create Stimuli
 # Gekleurde rechthoek als achtergrond
@@ -48,7 +48,7 @@ random.shuffle(trials)
 
 data_file = open("data.csv", mode="w", newline="")
 writer = csv.writer(data_file)
-writer.writerow(["trial_type", "response", "reaction_time"])
+writer.writerow(["Name", "trial_type", "response", "reaction_time"])
 
 
 # 5. Trial Loop
@@ -83,7 +83,7 @@ for trial in trials:
 
 
 # Save trial data
-    writer.writerow([trial, response, rt])
+    writer.writerow([name, trial, response, rt])
 
 # Inter-trial interval
     win.flip()
@@ -92,14 +92,14 @@ for trial in trials:
 #end message
 end_message = visual.TextStim(
 win,
-text = """This si the end of the experiment. Thank you for participating.""",
+text = """This is the end of the experiment. Thank you for participating.""",
 color = "black",
 height = 0.05
 )
 
 #show instructions:
 end_message.draw()
-win.flip
+win.flip()
 
 # 6. Clean Up
 
