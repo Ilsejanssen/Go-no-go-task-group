@@ -17,6 +17,16 @@ welcome_message = visual.TextStim(
                 height = 0.05
                 )
 
+#  Create Stimuli
+# Gekleurde rechthoek als achtergrond
+rect = visual.Rect(
+    win,
+    width=0.5,
+    height=0.3,
+    fillColor="green",  # standaard, wordt per trial aangepast
+    lineColor=None
+)
+
 # 2. Create Stimulus
 stim = visual.TextStim(win, text="", height=0.2, color="white")
 
@@ -40,10 +50,13 @@ for trial in trials:
     # Set stimulus text
     if trial == "GO":
         stim.text = "Go"
+        rect.fillColor = "green"
     else:
         stim.text = "No go"
+        rect.fillColor = "red"
 
 # Draw stimulus
+    rect.draw()
     stim.draw()
     win.flip()
 
