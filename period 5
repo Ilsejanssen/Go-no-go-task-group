@@ -2,6 +2,7 @@ from psychopy import visual, core, event, data
 import random
 import csv
 
+#ASK PARTICIPANT INPUT
 info = {"participant": ""}
 dlg = gui.DlgFromDict(info)
 if not dlg.OK:
