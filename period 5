@@ -2,8 +2,11 @@ from psychopy import visual, core, event, data
 import random
 import csv
 
-name = input("Enter your name:")
-print(f"{name}")
+info = {"participant": ""}
+dlg = gui.DlgFromDict(info)
+if not dlg.OK:
+    core.quit()
+name = info["participant"]
 
 #create window
 win = visual.Window(
