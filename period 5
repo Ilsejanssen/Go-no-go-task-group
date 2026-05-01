@@ -48,13 +48,6 @@ nogo_trials = 1
 trials = ["GO"] * go_trials + ["NOGO"] * nogo_trials
 random.shuffle(trials)
 
-Class Trial:
-def __init__(self, win, trial_type):
-    self.win = win
-    self.trial_type = trial_type
-    self.response = None
-    self.rt = None
-
 
 # 4. Prepare Data Storage
 
