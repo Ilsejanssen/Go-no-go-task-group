@@ -18,7 +18,7 @@ win = visual.Window(
 welcome_message = visual.TextStim(
                 win,
                 text = """Welcome to the experiment.
-                Please press the SPACEBAR when you see 'GO', and do NOT press any keys when you see 'N0-GO'
+                Please press the SPACEBAR when you see 'GO', and do NOT press any keys when you see 'NO-GO'
                 Please press the SPACEBAR to continue""",
                 color = "black",
                 height = 0.05
@@ -105,10 +105,13 @@ height = 0.05
 #show instructions:
 end_message.draw()
 win.flip()
+event.waitKeys(keyList = ["space"])
+core.wait(2)
 
 # 6. Clean Up
 
 data_file.close()
 win.close()
 core.quit()
+
 
