@@ -1,0 +1,123 @@
+from psychopy import visual, core, event, data, gui
+import random
+import csv
+
+#participant data
+info = {"Name": ""}
+dlg = gui.DlgFromDict(info)
+if not dlg.OK:
+    core.quit()
+name = info["Name"]
+
+#create window
+win = visual.Window(
+    size= (800, 600),
+    color="gray",
+    units="height")
+#introduction:
+welcome_message = visual.TextStim(
+                win,
+                text = """Welcome to the experiment.
+                Please press the SPACEBAR when you see 'GO', and do NOT press any keys when you see 'NO-GO'
+                Please press the SPACEBAR to continue""",
+                color = "black",
+                height = 0.05
+                )
+#show instructions:
+welcome_message.draw()
+win.flip()
+event.waitKeys(keyList = ["space"])
+
+#  Create Stimuli
+# Gekleurde rechthoek als achtergrond
+rect = visual.Rect(
+    win,
+    width=0.5,
+    height=0.3,
+    fillColor="green",  # standaard, wordt per trial aangepast
+    lineColor=None
+)
+
+# 2. Create Stimulus
+stim = visual.TextStim(win, text="", height=0.2, color="white")
+
+# 3. Create Trial List
+go_trials = 4
+nogo_trials = 1
+
+trials = ["GO"] * go_trials + ["NOGO"] * nogo_trials
+random.shuffle(trials)
+
+
+# 4. Prepare Data Storage
+
+data_file = open("data.csv", mode="w", newline="")
+writer = csv.writer(data_file)
+writer.writerow(["Name", "trial_type", "response", "reaction_time"])
+
+
+# 5. Trial Loop
+clock = core.Clock()
+
+class Trial:
+  def __init__(self, trial_type):	#__init__ is the constructor. it runs when a new object is created. we created a new object: self. trial_type is an attribute. init moet gewoon bij nieuwe class, 
+    self.trial_type = trial_type	#self: refers to the current object, #trial type is stored inside the object as the object as an attribute
+    self.response = None #this is not yet assigned, bc the participant needs to respond :)
+    self.rt = None  #rt is the attribute
+    #self is the current object
+
+  def run(self, stim, rect, win, clock):	
+# Set stimulus
+    if self.trial_type == "GO": # ”GO” is only used within the code
+      stim.text = "Go"
+      rect.fillColor = "green"
+    else:
+      stim.text = "No go"
+      rect.fillColor = "red"
+
+# Show stimulus
+    rect.draw()
+    stim.draw()
+    win.flip()
+
+# Get response
+    clock.reset() #time measurement starts now
+    keys = event.waitKeys(maxWait=1.0, keyList=["space"], timeStamped=clock)
+
+if keys:
+    self.response = "space" #this stores the response in ‘self’
+    self.rt = keys[0][1]  #list in a tuple?
+else:
+    self.response = "none"
+    self.rt = None 
+
+for trial_type in trials:
+  trial = Trial(trial_type)
+  trial.run(stim, rect, win, clock)
+
+  writer.writerow([name, trial.trial_type, trial.response, trial.rt]) 
+
+
+# Inter-trial interval
+    win.flip()
+    core.wait(0.5)
+
+#end message
+end_message = visual.TextStim(
+win,
+text = """This is the end of the experiment. Thank you for participating.""",
+color = "black",
+height = 0.05
+)
+
+#show instructions:
+end_message.draw()
+win.flip()
+event.waitKeys(keyList = ["space"])
+core.wait(2)
+
+# 6. Clean Up
+
+data_file.close()
+win.close()
+core.quit()
