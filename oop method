@@ -40,6 +40,12 @@ rect = visual.Rect(
 
 # 2. Create Stimulus
 stim = visual.TextStim(win, text="", height=0.2, color="white")
+feedback = visual.TextStim(
+    win,
+    text="You made a mistake.\nThe test will continue.",
+    color="black",
+    height=0.05
+)
 
 # 3. Create Trial List
 go_trials = 4
@@ -90,6 +96,10 @@ class Trial:
         else:
             self.response = "none"
             self.rt = None 
+        if self.trial == "NOGO" and keys: #keys is not empty, but it is a nogo trial then..
+            feedback.draw()
+            win.flip()
+            core.wait(1.5)
 
 for trial_type in trials:
     trial = Trial(trial_type)
