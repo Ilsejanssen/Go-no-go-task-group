@@ -106,7 +106,7 @@ class Trial:
 
 for trial_type in trials:
     trial = Trial(trial_type)
-    trial.run(stim, rect, win, clock)
+    trial.run(stim, rect, win, clock, feedback)
 
     writer.writerow([name, trial.trial_type, trial.response, trial.rt]) 
 
