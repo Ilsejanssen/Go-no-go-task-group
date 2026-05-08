@@ -1,4 +1,5 @@
-from psychopy import visual, core, event, data, gui, os
+from psychopy import visual, core, event, data, gui
+import os 
 import random
 import csv
 
