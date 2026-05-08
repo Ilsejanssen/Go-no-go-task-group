@@ -41,6 +41,13 @@ rect = visual.Rect(
 # 2. Create Stimulus
 stim = visual.TextStim(win, text="", height=0.2, color="white")
 
+feedback = visual.TextStim(
+    win,
+    text="You made a mistake.\nThe test will continue.",
+    color="black",
+    height=0.05
+)
+
 # 3. Create Trial List
 go_trials = 4
 nogo_trials = 1
@@ -67,7 +74,7 @@ class Trial:
         self.rt = None  #rt is the attribute
         #self is the current object
 
-    def run(self, stim, rect, win, clock):	
+    def run(self, stim, rect, win, clock, feedback):	
 # Set stimulus
         if self.trial_type == "GO": # ”GO” is only used within the code
             stim.text = "Go"
@@ -75,6 +82,11 @@ class Trial:
         else:
             stim.text = "No go"
             rect.fillColor = "red"
+        
+        if self.trial_type == "NOGO" and keys:
+            feedback.draw()
+            win.flip()
+            core.wait(1.5)
 
 # Show stimulus
         rect.draw()
