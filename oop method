@@ -57,7 +57,7 @@ random.shuffle(trials)
 
 # 4. Prepare Data Storage
 
-data_file = open("data.csv", mode="w", newline="")
+data_file = open("data.csv", mode="a", newline="")
 writer = csv.writer(data_file)
 writer.writerow(["Name", "trial_type", "response", "reaction_time"])
 
