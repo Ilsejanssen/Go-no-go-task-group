@@ -60,42 +60,42 @@ writer.writerow(["Name", "trial_type", "response", "reaction_time"])
 clock = core.Clock()
 
 class Trial:
-  def __init__(self, trial_type):	#__init__ is the constructor. it runs when a new object is created. we created a new object: self. trial_type is an attribute. init moet gewoon bij nieuwe class, 
-    self.trial_type = trial_type	#self: refers to the current object, #trial type is stored inside the object as the object as an attribute
-    self.response = None #this is not yet assigned, bc the participant needs to respond :)
-    self.rt = None  #rt is the attribute
-    #self is the current object
+    def __init__(self, trial_type):	#__init__ is the constructor. it runs when a new object is created. we created a new object: self. trial_type is an attribute. init moet gewoon bij nieuwe class, 
+        self.trial_type = trial_type	#self: refers to the current object, #trial type is stored inside the object as the object as an attribute
+        self.response = None #this is not yet assigned, bc the participant needs to respond :)
+        self.rt = None  #rt is the attribute
+        #self is the current object
 
-  def run(self, stim, rect, win, clock):	
+    def run(self, stim, rect, win, clock):	
 # Set stimulus
-    if self.trial_type == "GO": # ”GO” is only used within the code
-      stim.text = "Go"
-      rect.fillColor = "green"
-    else:
-      stim.text = "No go"
-      rect.fillColor = "red"
+        if self.trial_type == "GO": # ”GO” is only used within the code
+            stim.text = "Go"
+            rect.fillColor = "green"
+        else:
+            stim.text = "No go"
+            rect.fillColor = "red"
 
 # Show stimulus
-    rect.draw()
-    stim.draw()
-    win.flip()
+        rect.draw()
+        stim.draw()
+        win.flip()
 
 # Get response
-    clock.reset() #time measurement starts now
-    keys = event.waitKeys(maxWait=1.0, keyList=["space"], timeStamped=clock)
+        clock.reset() #time measurement starts now
+        keys = event.waitKeys(maxWait=1.0, keyList=["space"], timeStamped=clock)
 
-if keys:
-    self.response = "space" #this stores the response in ‘self’
-    self.rt = keys[0][1]  #list in a tuple?
-else:
-    self.response = "none"
-    self.rt = None 
+        if keys:
+            self.response = "space" #this stores the response in ‘self’
+            self.rt = keys[0][1]  #list in a tuple?
+        else:
+            self.response = "none"
+            self.rt = None 
 
 for trial_type in trials:
-  trial = Trial(trial_type)
-  trial.run(stim, rect, win, clock)
+    trial = Trial(trial_type)
+    trial.run(stim, rect, win, clock)
 
-  writer.writerow([name, trial.trial_type, trial.response, trial.rt]) 
+    writer.writerow([name, trial.trial_type, trial.response, trial.rt]) 
 
 
 # Inter-trial interval
@@ -119,5 +119,7 @@ core.wait(2)
 # 6. Clean Up
 
 data_file.close()
+win.close()
+core.quit()
 win.close()
 core.quit()
