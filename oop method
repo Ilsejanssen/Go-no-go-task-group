@@ -1,14 +1,13 @@
-from psychopy import visual, core, event, data, gui
-import os 
+from psychopy import visual, core, event, data, gui, os
 import random
 import csv
 
 #participant data
-info = {"Name": ""} #creates dictionary
-dlg = gui.DlgFromDict(info) #makes a pop up box in psychopy, to enter in your name
-if not dlg.OK: # if participant did not press ok, core quit
+info = {"Name": ""}
+dlg = gui.DlgFromDict(info)
+if not dlg.OK:
     core.quit()
-name = info["Name"] #if the if statement is false, participant pressed ok, so it takes the name from the dictionary and it can be stored somewhere else 
+name = info["Name"]
 
 #create window
 win = visual.Window(
@@ -42,12 +41,8 @@ rect = visual.Rect(
 # 2. Create Stimulus
 stim = visual.TextStim(win, text="", height=0.2, color="white")
 
-feedback = visual.TextStim(
-    win,
-    text="You made a mistake.\nThe test will continue.",
-    color="black",
-    height=0.05
-)
+# Feedback message
+feedback = visual.TextStim(win, text="Incorrect!\nDo not press SPACE during NO-GO trials.", color="black", height=0.05)
 
 # 3. Create Trial List
 go_trials = 4
@@ -62,7 +57,7 @@ file_exists = os.path.exists("data.csv")
 data_file = open("data.csv", mode="a", newline="")
 writer = csv.writer(data_file)
 if not file_exists:
-    writer.writerow(["Name", "trial_type", "response", "reaction_time"])
+    writer.writerow(["Name", "trial_type", "response", "reaction_time", "accuracy"])
 
 
 # 5. Trial Loop
@@ -73,6 +68,7 @@ class Trial:
         self.trial_type = trial_type	#self: refers to the current object, #trial type is stored inside the object as the object as an attribute
         self.response = None #this is not yet assigned, bc the participant needs to respond :)
         self.rt = None  #rt is the attribute
+        self.accuracy = None 
         #self is the current object
 
     def run(self, stim, rect, win, clock, feedback):	
@@ -100,16 +96,33 @@ class Trial:
             self.response = "none"
             self.rt = None 
 
-        if self.trial_type == "NOGO" and keys:
-            feedback.draw()
-            win.flip()
-            core.wait(1.5)
+# Determine accuracy
+        if self.trial_type == "GO":
+
+            if self.response == "space":
+                self.accuracy = 1
+
+            else:
+                self.accuracy = 0
+
+        elif self.trial_type == "NOGO":
+
+            if self.response == "none":
+                self.accuracy = 1
+
+            else:
+                self.accuracy = 0
+
+                # Show feedback for incorrect NO-GO response
+                feedback.draw()
+                win.flip()
+                core.wait(1.5)
 
 for trial_type in trials:
     trial = Trial(trial_type)
     trial.run(stim, rect, win, clock, feedback)
 
-    writer.writerow([name, trial.trial_type, trial.response, trial.rt]) 
+    writer.writerow([name, trial.trial_type, trial.response, trial.rt, trial.accuracy]) 
 
 
 # Inter-trial interval
@@ -133,5 +146,7 @@ core.wait(2)
 # 6. Clean Up
 
 data_file.close()
+win.close()
+core.quit()
 win.close()
 core.quit()
