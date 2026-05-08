@@ -1,4 +1,4 @@
-from psychopy import visual, core, event, data, gui
+from psychopy import visual, core, event, data, gui, os
 import random
 import csv
 
@@ -40,12 +40,6 @@ rect = visual.Rect(
 
 # 2. Create Stimulus
 stim = visual.TextStim(win, text="", height=0.2, color="white")
-feedback = visual.TextStim(
-    win,
-    text="You made a mistake.\nThe test will continue.",
-    color="black",
-    height=0.05
-)
 
 # 3. Create Trial List
 go_trials = 4
@@ -56,10 +50,11 @@ random.shuffle(trials)
 
 
 # 4. Prepare Data Storage
-
+file_exists = os.path.exists("data.csv")
 data_file = open("data.csv", mode="a", newline="")
 writer = csv.writer(data_file)
-writer.writerow(["Name", "trial_type", "response", "reaction_time"])
+if not file_exists:
+    writer.writerow(["Name", "trial_type", "response", "reaction_time"])
 
 
 # 5. Trial Loop
@@ -96,10 +91,6 @@ class Trial:
         else:
             self.response = "none"
             self.rt = None 
-        if self.trial == "NOGO" and keys: #keys is not empty, but it is a nogo trial then..
-            feedback.draw()
-            win.flip()
-            core.wait(1.5)
 
 for trial_type in trials:
     trial = Trial(trial_type)
