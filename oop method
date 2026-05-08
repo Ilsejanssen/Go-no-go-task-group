@@ -82,11 +82,6 @@ class Trial:
         else:
             stim.text = "No go"
             rect.fillColor = "red"
-        
-        if self.trial_type == "NOGO" and keys:
-            feedback.draw()
-            win.flip()
-            core.wait(1.5)
 
 # Show stimulus
         rect.draw()
@@ -103,6 +98,11 @@ class Trial:
         else:
             self.response = "none"
             self.rt = None 
+
+        if self.trial_type == "NOGO" and keys:
+            feedback.draw()
+            win.flip()
+            core.wait(1.5)
 
 for trial_type in trials:
     trial = Trial(trial_type)
