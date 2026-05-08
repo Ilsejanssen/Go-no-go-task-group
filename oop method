@@ -4,11 +4,11 @@ import random
 import csv
 
 #participant data
-info = {"Name": ""}
-dlg = gui.DlgFromDict(info)
-if not dlg.OK:
+info = {"Name": ""} #creates dictionary
+dlg = gui.DlgFromDict(info) #makes a pop up box in psychopy, to enter in your name
+if not dlg.OK: # if participant did not press ok, core quit
     core.quit()
-name = info["Name"]
+name = info["Name"] #if the if statement is false, participant pressed ok, so it takes the name from the dictionary and it can be stored somewhere else 
 
 #create window
 win = visual.Window(
